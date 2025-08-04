@@ -10,12 +10,10 @@ from app.auth.hashing import hash_password
 async def login_user(user_data:UserLogin, db:AsyncSession):
     query  = select(User).where(User.email == user_data.email)
     result = await db.execute(query)
-    user_row= result.first()
+    user= result.scalar_one_or_none()
 
-    if not user_row:
+    if not user:
         raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail = "User not found")
-    
-    user = user_row[0]
 
     if not verify_password(user_data.password, user.password):
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail = "Incorrect Password")
@@ -32,10 +30,10 @@ async def login_user(user_data:UserLogin, db:AsyncSession):
 async def create_user(user_data:UserCreate,db:AsyncSession,):
     query = select(User).where(User.email == user_data.email)
     result = await db.execute(query)
-    existing_user = result.first()
+    existing_user = result.scalar_one_or_none()
 
-    if existing_user:
-        raise HTTPException(status.HTTP_409_CONFLICT,detail="User with this email already exists")
+    if existing_user is not None:
+        raise HTTPException(status_code=status.HTTP_409_CONFLICT,detail="User with this email already exists")
     
     hashed_password = hash_password(user_data.password)
     
@@ -55,7 +53,7 @@ async def get_user_by_email(email:str,db:AsyncSession):
     user = result.scalar_one_or_none()
 
     if not user:
-        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="User with this email already exists")
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND,detail="User with this email not found")
 
     return user
 

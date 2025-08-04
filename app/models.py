@@ -4,7 +4,7 @@ from datetime import datetime
 from typing import List
 
 class User(SQLModel,table=True):
-    id : int = Field(primary_key=True)
+    id : int = Field(default=None,primary_key=True)
     name : str
     email : EmailStr
     password: str = Field(nullable=False)
@@ -14,7 +14,7 @@ class User(SQLModel,table=True):
 
 
 class Post(SQLModel,table=True):
-    id : int = Field(primary_key=True)
+    id : int = Field(default=None,primary_key=True)
     title : str
     content : str
     created_at : datetime = Field(default_factory=datetime.now)
@@ -25,7 +25,7 @@ class Post(SQLModel,table=True):
 
 
 class Comment(SQLModel,table=True):
-    id : int = Field(primary_key=True)
+    id : int = Field(default=None,primary_key=True)
     content : str
     created_at : datetime = Field(default_factory=datetime.now)
     post_id : int = Field(foreign_key="post.id")

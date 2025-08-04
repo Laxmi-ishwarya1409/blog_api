@@ -21,10 +21,10 @@ async def register_user(user: UserCreate, db: AsyncSession = Depends(get_session
 async def login(user: UserLogin, db: AsyncSession = Depends(get_session)):
     return await login_user(user,db)
 
-@router.get("/me")  # to get the currently authenticated user.
+@router.get("/me")
 async def get_me(current_user: User = Depends(get_current_user)):
     return current_user
-3
+
 @router.get("/{id}",response_model = UserRead)
 async def get_user(id:int, db:AsyncSession = Depends(get_session)):
     return await get_user_by_id(id,db)
