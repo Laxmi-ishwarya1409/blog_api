@@ -3,7 +3,7 @@ from contextlib import asynccontextmanager
 from app.database import init_db
 from app.routes import users,posts,comments
 from fastapi.exceptions import RequestValidationError
-from app.utils.exception_handlers import http_exception_handler, request_validation_exception_handler
+from app.exception_handlers import http_exception_handler, request_validation_exception_handler
 
 @asynccontextmanager
 async def lifespan(app:FastAPI):
