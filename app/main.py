@@ -21,3 +21,8 @@ def root():
 app.include_router(users.router, prefix = "/users",tags = ["Users"])
 app.include_router(posts.router, prefix = "/posts",tags = ["Posts"])
 app.include_router(comments.router, prefix = "/comments",tags = ["Comments"])
+
+
+
+app.add_exception_handler(HTTPException, http_exception_handler)
+app.add_exception_handler(RequestValidationError, request_validation_exception_handler)
