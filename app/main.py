@@ -26,3 +26,4 @@ app.include_router(comments.router, prefix = "/comments",tags = ["Comments"])
 
 app.add_exception_handler(HTTPException, http_exception_handler)
 app.add_exception_handler(RequestValidationError, request_validation_exception_handler)
+
